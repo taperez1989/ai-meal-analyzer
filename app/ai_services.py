@@ -3,18 +3,16 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
-client = OpenAI()
 
 
-def get_meal_analysis(meal_description):
+def get_meal_analysis(meal_description, client=None):
+    # Tests can supply a fake client; production creates the real client.
+    if client is None:
+        client = OpenAI()
 
+    response = client.responses.create(
+        model="gpt-5.6-luna",
+        input=meal_description,
+    )
 
-    meal_analysis = {
-        "name": meal_description,
-        "estimated_calories": 750,
-        "protein": 60,
-        "carbs" : 100,
-        "fat" : 32 
-    }
-
-    return meal_analysis
+    return response.output_text
