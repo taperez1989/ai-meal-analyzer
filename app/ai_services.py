@@ -1,6 +1,7 @@
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from app.schemas import MealAnalysis
 
 load_dotenv()
 
@@ -10,9 +11,10 @@ def get_meal_analysis(meal_description, client=None):
     if client is None:
         client = OpenAI()
 
-    response = client.responses.create(
+    response = client.responses.parse(
         model="gpt-5.6-luna",
         input=meal_description,
+        text_format=MealAnalysis,
     )
 
-    return response.output_text
+    return response.output_parsed
