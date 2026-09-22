@@ -13,6 +13,10 @@ def get_meal_analysis(meal_description, client=None):
 
     response = client.responses.parse(
         model="gpt-5.6-luna",
+        instructions=(
+            "Analyze the meal description and return reasonable numerical "
+            "estimates for its nutritional values."
+        ),
         input=meal_description,
         text_format=MealAnalysis,
     )

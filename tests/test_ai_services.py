@@ -25,6 +25,10 @@ def test_get_meal_analysis_uses_supplied_client():
     fake_client.responses.parse.assert_called_once_with(
         model="gpt-5.6-luna",
         input="toast",
+        instructions=(
+            "Analyze the meal description and return reasonable numerical "
+            "estimates for its nutritional values."
+        ),
         text_format=MealAnalysis,
     )
 
@@ -52,8 +56,12 @@ def test_get_meal_analysis_creates_client_when_not_supplied():
         mock_openai.assert_called_once_with()
         assert result == fake_analysis
 
-    fake_client.responses.parse.assert_called_once_with(
-        model="gpt-5.6-luna",
-        input="toast",
-        text_format=MealAnalysis,
+        fake_client.responses.parse.assert_called_once_with(
+            model="gpt-5.6-luna",
+            input="toast",
+            instructions=(
+                "Analyze the meal description and return reasonable numerical "
+                "estimates for its nutritional values."
+            ),
+            text_format=MealAnalysis,
         )
