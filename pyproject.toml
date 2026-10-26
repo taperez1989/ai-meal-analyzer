@@ -10,9 +10,12 @@ dependencies = [
     "openai",
     "python-dotenv",
     "pydantic",
+    "fastapi",
+    "uvicorn",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
+    "httpx",
 ]

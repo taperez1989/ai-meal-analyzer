@@ -1,14 +1,14 @@
 import pytest
 from pydantic import ValidationError
 
-from app.schemas import MealAnalysis
+from app.schemas import MealAnalysis, MealAnalysisRequest
 
 
 def test_meal_analysis_accepts_valid_nutrition():
     """Create a meal when every field has the expected type."""
 
     # Arrange and Act: construct a validated meal-analysis object.
-    analysis=MealAnalysis(
+    analysis = MealAnalysis(
         name="toast",
         estimated_calories=150,
         protein_grams=4.0,
@@ -31,3 +31,16 @@ def test_meal_analysis_rejects_missing_nutrition_data():
             protein_grams=4.0,
             carbohydrate_grams=28.0,
         )
+
+
+def test_meal_request_strips_whitespace():
+    """Store a meal description without surrounding spaces."""
+    request = MealAnalysisRequest(meal_description="  chicken burrito  ")
+
+    assert request.meal_description == "chicken burrito"
+
+
+def test_meal_request_rejects_blank_description():
+    """Reject a description containing only whitespace."""
+    with pytest.raises(ValidationError):
+        MealAnalysisRequest(meal_description=" ")
